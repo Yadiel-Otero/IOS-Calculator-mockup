@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .calculator {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            background-color: black;
+            height: 650px;
+            width: 375px;
+        }
+
+        #screen {
+            flex: 1;
+            background-color: lightblue;
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            flex: 2;
+            gap: 14px;
+            margin: 24px;
+        }
+
+        .grid-item {
+            color: #f5f6f6;
+            background-color: #313131;
+            font-size: 32px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.05s ease-in-out;
+        }
+
+        .grid-item:active {
+            font-size: 24px;
+            background-color: #ffffff91;
+        }
+
+        .double-grid-item {
+            grid-column: span 2;
+            border-radius: 25%/50%;
+            text-align: left;
+            padding-left: 30px;
+        }
+
+        .lightgray-item {
+            color: #000000;
+            background-color: #9f9f9f;
+        }
+
+        .orange-item {
+            color: #f6f6f5;
+            background-color: #f69906;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div id="screen">
+
+        </div>
+
+
+
+
+
+        <div class="keypad-grid">
+            <button class="grid-item 
+            lightgray-item" onclick="deleteAll()">AC</button>
+            <button class="grid-item 
+            lightgray-item">+/-</button>
+            <button class="grid-item 
+            lightgray-item" onclick="displaySymbol('%')">%</button>
+            <button class="grid-item 
+            orange-item" onclick="displaySymbol('÷'), divide()">÷</button>
+
+            <button class="grid-item" onclick="displayNumber(7)">7</button>
+            <button class="grid-item" onclick="displayNumber(8)">8</button>
+            <button class="grid-item" onclick="displayNumber(9)">9</button>
+            <button class="grid-item 
+            orange-item" onclick="displaySymbol('×'), multiply()">×</button>
+
+            <button class="grid-item" onclick="displayNumber(4)">4</button>
+            <button class="grid-item" onclick="displayNumber(5)">5</button>
+            <button class="grid-item" onclick="displayNumber(6)">6</button>
+            <button class="grid-item 
+            orange-item" onclick="substract(), displaySymbol('−')">−</button>
+
+            <button class="grid-item" onclick="displayNumber(1)">1</button>
+            <button class="grid-item" onclick="displayNumber(2)">2</button>
+            <button class="grid-item" onclick="displayNumber(3)">3</button>
+            <button class="grid-item 
+            orange-item" onclick="sum(), displaySymbol('+')">+</button>
+
+            <button class="grid-item double-grid-item" onclick="displayNumber(0)">0</button>
+            <button class="grid-item" onclick="displayNumber('.')">.</button>
+            <button class="grid-item 
+            orange-item" onclick="result()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let screen = document.getElementById('screen');
+        let numberCache = 0;
+        let tempNumber = 0;
+        let currentOperation = '';
+
+        let displayNumber = (value) => {
+            numberCache = value;
+            screen.innerHTML += numberCache;
+        }
+
+        displaySymbol = (value) => {
+            screen.innerHTML += value;
+        }
+
+        let deleteAll = () => {
+            numberCache = 0;
+            tempNumber = 0;
+            screen.innerHTML = '';
+        }
+
+        let sum = () => {
+            tempNumber += numberCache;
+            currentOperation = 'sum';
+            console.log('number cache: ' + numberCache);
+            console.log('temp number: ' + tempNumber);
+        }
+
+        let substract = () => {
+            tempNumber += numberCache;
+            currentOperation = 'substract';
+            console.log('number cache: ' + numberCache);
+            console.log('temp number: ' + tempNumber);
+        }
+
+        let divide = () => {
+            tempNumber += numberCache;
+            currentOperation = 'divide';
+        }
+
+        let multiply = () => {
+            tempNumber += numberCache;
+            currentOperation = 'multiply';
+            console.log('number cache: ' + numberCache);
+            console.log('temp number: ' + tempNumber);
+        }
+
+        let result = () => {
+            screen.innerHTML = '';
+
+            switch (currentOperation) {
+                case 'sum':
+                    numberCache += tempNumber;
+                    displayNumber(numberCache);
+                    break;
+
+                case 'substract':
+                    numberCache = tempNumber - numberCache;
+                    displayNumber(numberCache);
+                    console.log('number cache: ' + numberCache);
+                    console.log('temp number: ' + tempNumber);
+                    break;
+
+                case 'divide':
+                    numberCache = tempNumber / numberCache;
+                    displayNumber(numberCache);
+                    break;
+
+                case 'multiply':
+                    numberCache *= tempNumber;
+                    displayNumber(numberCache);
+                    break;
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+Tried to make a calculator in 1 day to practice my javascript 
